@@ -1,6 +1,12 @@
 import React from 'react';
+import QuoteForm from '../QuoteForm';
 import '../../App.css';
 
-export default function FreeQuote() {
-  return <h1 className='free-quote'>Form Placeholder</h1>;
+const FreeQuote = () => {
+  return (
+    <>
+      <QuoteForm/>
+    </>
+  );
 }
+export default FreeQuote;
