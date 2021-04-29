@@ -1,42 +1,90 @@
 import React from "react";
-import {Formik, Form, Field, ErrorMessage} from "formik";
+
 import "./QuoteForm.css";
-import {Link} from "react-router-dom";
+
 
 const QuoteForm = (props) => {
+  
+    const [name, setName] = React.useState("");
+    const [email, setEmail] = React.useState("");
+    const [phoneNumber, setPhoneNumber] = React.useState("");
+    const [town, setTown] = React.useState("");
+    const [description, setDescription] = React.useState("");
+
+
+    const handleNameChange = event => setName(event.target.value);
+    const handleEmailChange = event => setEmail(event.target.value);
+    const handlePhoneNumberChange = event => setPhoneNumber(event.target.value);
+    const handleTownChange = event => setTown(event.target.value);
+    const handleDescriptionChange = event => setDescription(event.target.value);
+
+    async function sampleFunc(toInput) {
+        const response = await fetch("/api/newClient", {
+            method: "POST", 
+            mode: "cors",
+            cache: "no-cache", 
+            credentials: "same-origin", 
+            headers: {
+                "Content-Type": "application/json"
+            },
+            redirect: "follow", 
+            referrerPolicy: "no-referrer", 
+            body: JSON.stringify(toInput)
+        });
+        
+        
+    }
+
+    const handleSubmit = variables => {
+        const toInput = { name, email, phoneNumber, town, description };
+        sampleFunc(toInput);
+        setName("");
+        setEmail("");
+        setPhoneNumber("");
+        setTown("");
+        setDescription("");
+    };
+
+    
     return (
         <div className="body">
-            <Formik
-                values = {{name: "", email: "", phoneNumber: "", town: "", description: ""}}
-                onSubmit = {({ setSubmitting }) => {
-                    alert("Submitting the form");
-                    setSubmitting(false);
-                }}>
-                {() => (
-                    <Form className="formBody">
-                        <div className ="formName">
-                            <label htmlFor="name" className ="formLabelName">Name:</label>
-                            <Field type="name" name = "name" className = "formInput"/>
+              <form onSubmit={handleSubmit}>
+                <div className="">
+                    <div className="">
+                        <label htmlFor="input" className=" col-form-label">Name</label>
+                        <div className="col-lg-5">
+                            <input type="text" className="form-control" name="name"  value={name} onChange={handleNameChange}  />
                         </div>
-                        <div className ="formEmail">
-                            <label htmlFor="email" className ="formLabelEmail">Email:</label>
-                            <Field type = "email" name ="email" className="formInput"/>
+                    </div>
+                    <div className="">
+                        <label htmlFor="input" className=" col-form-label">Email</label>
+                        <div className="col-lg-5">
+                            <input type="text" className="form-control" name="email" value={email} onChange={handleEmailChange}  />
                         </div>
-                        <div className ="formPhone">
-                            <label htmlFor="phoneNumber" className="formLabelPhone">Phone Number:</label>
-                            <Field type = "phoneNumber" name ="phoneNumber" className="formInput"/>
+                    </div>
+                    <div className="">
+                        <label htmlFor="input" className=" col-form-label">Phone Number</label>
+                        <div className="col-lg-5">
+                            <input type="text" className="form-control" name="phoneNumber" value={phoneNumber} onChange={handlePhoneNumberChange}  />
                         </div>
-                        <div className ="formTown">
-                            <label htmlFor="town" className="formLabelTown">Your Town:</label>
-                            <Field type = "town" name ="town" className="formInput"/>
+                    </div>
+                    <div className="">
+                        <label htmlFor="input" className=" col-form-label">Town</label>
+                        <div className="col-lg-5">
+                            <input type="text" className="form-control" name="town" value={town} onChange={handleTownChange}  />
                         </div>
-                        <div className ="formDescription">
-                            <label htmlFor="description" className="formLabelDescription">Short description</label>
-                            <Field type = "description" name ="description" className="formInput"/>
+                    </div>
+                    <div className="">
+                        <label htmlFor="input" className=" col-form-label"> Brief Description</label>
+                        <div className="col-lg-5">
+                            <input type="text" className="form-control" name="description" value={description} onChange={handleDescriptionChange}  />
                         </div>
-                    </Form>
-                )}
-            </Formik>
+                    </div>
+                    <div className="">
+                        <button type="submit" class="btn btn-info">Submit</button>
+                    </div>
+                </div>
+            </form>
         </div>
 
     );
